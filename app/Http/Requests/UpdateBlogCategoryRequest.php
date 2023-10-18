@@ -25,7 +25,7 @@ class UpdateBlogCategoryRequest extends FormRequest
     {
         return [
             'name'      => 'required|string|min:3|max:100|unique:blog_categories,name,' . $this->blogCategory->id,
-            'image'     => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'image'     => 'sometimes|nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'status'    => 'required|integer',
         ];
     }
@@ -41,7 +41,6 @@ class UpdateBlogCategoryRequest extends FormRequest
         return [
             'name.required'     => 'Blog Category Name must be Required',
             'name.unique'       => 'Blog Category Name Already Exists',
-            'image.required'    => 'Blog image required',
             'status.integer'    => 'Select a valid status',
         ];
     }

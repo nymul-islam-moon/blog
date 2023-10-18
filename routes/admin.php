@@ -57,7 +57,7 @@ Route::middleware(['is_admin', 'auth'])->prefix('admin')->group(function () {
         });
 
 
-        Route::controller(BlogController::class)->prefix('/blog')->group(function () {
+        Route::controller(BlogController::class)->prefix('/')->group(function () {
             Route::get('/', 'index')->name('admin.blog.index');
             Route::get('/create', 'create')->name('admin.blog.create');
             Route::post('/store', 'store')->name('admin.blog.store');
@@ -71,7 +71,6 @@ Route::middleware(['is_admin', 'auth'])->prefix('admin')->group(function () {
             Route::delete('/destroy-all', 'destroyAll')->name('admin.blog.destroyAll');
             Route::delete('/permanent-destroy-all', 'permanentDestroyAll')->name('admin.blog.permanentDestroyAll');
             Route::delete('/restore-all', 'restoreAll')->name('admin.blog.restoreAll');
-            Route::get('/get-data', 'getAllData')->name('admin.blog.getAllData');
         });
 
     });

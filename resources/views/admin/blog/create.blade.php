@@ -1,17 +1,17 @@
 <div class="modal-content border-0">
     <div class="modal-header p-3 bg-soft-info">
-        <h5 class="modal-title" id="exampleModalLabel">Add Blog Category</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add Blog</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
     </div>
-    <form class="tablelist-form" autocomplete="off" id="add_category_form" action="{{ route('blog.category.store') }}" method="POST">
+    <form class="tablelist-form" autocomplete="off" id="add_category_form" action="{{ route('admin.blog.store') }}" method="POST">
         @csrf
         @method('POST')
         <div class="modal-body">
             <div class="row g-3">
                 <div class="col-lg-6">
-                    <label for="category_name" class="form-label">Category Name</label>
-                    <input required type="text" id="category_name" name="name" class="form-control" value="{{ old('name') }}" placeholder="Category name">
-                    <span class="error error_name text-danger"></span>
+                    <label for="title" class="form-label">Blog Title</label>
+                    <input required type="text" id="title" name="title" class="form-control" value="{{ old('title') }}" placeholder="Blog Title">
+                    <span class="error error_title text-danger"></span>
                 </div>
                 <!--end col-->
                 <div class="col-lg-6">
@@ -24,22 +24,46 @@
                     <span class="error error_status text-danger"></span>
                 </div>
             </div>
+
             <div class="row g-3">
                 <div class="col-lg-6">
-                    <label for="category_image" class="form-label">Image</label>
-                    <input required type="file" id="category_image" name="image" class="form-control" value="{{ old('name') }}" placeholder="Category Image">
-                    <span class="error error_name text-danger"></span>
+                    <label for="category_status" class="form-label">Blog Category</label>
+                    <select required class="form-control" name="blog_category_id" id="category_status">
+                        <option selected>Blog Category</option>
+                        @foreach ($blogCategories as $blogCategory)
+                            <option value="{{ $blogCategory->id }}">{{ $blogCategory->id }}</option>
+                        @endforeach
+                    </select>
+                    <span class="error error_blog_category_id text-danger"></span>
                 </div>
+
+                <div class="col-lg-6">
+                    <label for="category_image" class="form-label">Image</label>
+                    <input required type="file" id="image" name="image" class="form-control" value="{{ old('name') }}" placeholder="Category Image">
+                    <span class="error error_image text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row g-3">
+
+                <div class="col-lg-12">
+                    <label for="desc" class="form-label">Description</label>
+                    <textarea name="desc" id="" class="form-control" rows="10"></textarea>
+                    {{-- <input required type="text" id="desc" name="desc" class="form-control" value="{{ old('desc') }}" placeholder="Category Image"> --}}
+                    <span class="error error_desc text-danger"></span>
+                </div>
+
             </div>
         </div>
         <div class="modal-footer" style="display: block;">
             <div class="hstack gap-2 justify-content-end">
                 <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success submit_button">Add Category</button>
+                <button type="submit" class="btn btn-success submit_button">Add Blog</button>
             </div>
         </div>
     </form>
 </div>
+
 
 <script>
     /**
@@ -48,6 +72,7 @@
      * */
     $(document).on('submit', '#add_category_form', function(e) {
         e.preventDefault();
+
         // $('.loading_button').show();
         var url = $(this).attr('action');
         $('.submit_button').prop('type', 'button');

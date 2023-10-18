@@ -276,6 +276,8 @@ class BlogCategoryController extends Controller
         }
 
 
+        $blogCategory->update( $formData );
+
         return response()->json('Blog Category Updated Successfully');
     }
 
@@ -291,7 +293,7 @@ class BlogCategoryController extends Controller
         $blogCategory->save();
         $blogCategory->delete();
 
-        return response()->json('Product Category Deleted Successfully');
+        return response()->json('Blog category deleted successfully');
    }
 
 

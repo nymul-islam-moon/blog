@@ -886,6 +886,7 @@
     <!-- App js -->
     <script src="{{ asset('dashboard/assets/js/app.js') }}"></script>
 
+
     <!-- password-addon init -->
     <script src="{{ asset('dashboard/assets/js/pages/password-addon.init.js') }}"></script>
 

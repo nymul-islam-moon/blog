@@ -18,12 +18,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Blog Categoory List</h4>
+                        <h4 class="mb-sm-0">Blog List</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Blog</a></li>
-                                <li class="breadcrumb-item active">Blog Categoory List</li>
+                                <li class="breadcrumb-item active">Blog List</li>
                             </ol>
                         </div>
 
@@ -37,7 +37,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1">
-                                    <p class="text-uppercase fw-medium text-muted mb-0">Total Product Categories</p>
+                                    <p class="text-uppercase fw-medium text-muted mb-0">Total </p>
                                 </div>
                                 {{-- <div class="flex-shrink-0">
                                     <h5 class="text-success fs-14 mb-0">
@@ -96,7 +96,7 @@
                                    <div class="d-flex flex-wrap gap-2">
 
                                         {{-- <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#addCategoryModal"><i class="ri-add-line align-bottom me-1"></i> Create Task</button> --}}
-                                        <button class="btn btn-danger add-btn" href="{{ route('blog.category.create') }}" id="add_btn"><i class="ri-add-line align-bottom me-1"></i> Add Category</button>
+                                        <button class="btn btn-danger add-btn" href="{{ route('admin.blog.create') }}" id="add_btn"><i class="ri-add-line align-bottom me-1"></i> Add Blog</button>
 
                                         <button class="btn btn-soft-danger" id="temp_delete_all"><i class="ri-delete-bin-2-line"></i></button>
                                         <button class="btn btn-soft-danger d-none" id="permanent_delete_all"><i class="ri-delete-bin-2-line"></i></button>
@@ -164,9 +164,11 @@
                                                 </th>
                                                 <th scope="col">ID</th>
                                                 <th scope="col">Action</th>
-                                                <th scope="col">Name</th>
+                                                <th scope="col">Title</th>
+                                                <th scope="col">Blog Category</th>
                                                 <th scope="col">Status</th>
                                                 <th scope="col">Image</th>
+                                                <th scope="col">Description</th>
                                                 <th scope="col">Created By</th>
                                                 <th scope="col">Updated By</th>
                                             </tr>
@@ -218,24 +220,9 @@
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
+
 <script>
     $(document).ready(function() {
-
-        /**
-         * Get all information
-         * */
-         function getAllData()
-        {
-            $.ajax({
-                url: "{{ route('blog.category.getAllData') }}",
-                type: 'GET',
-
-                success: function(data) {
-                    var total_category_count = document.getElementById('total_category_count');
-                    total_category_count.dataset.target = data.allCategory;
-                }
-            });
-        }
 
 
         /**
@@ -257,7 +244,7 @@
                 [5, 10, 25, 50, 100, 500, 1000, "All"],
             ],
             ajax: {
-                url: "{{ route('blog.category.index') }}",
+                url: "{{ route('admin.blog.index') }}",
                 data: function(e) {
                     // e.center_id = $('#center_id').val();
                     e.f_status = $('#f_status').val();
@@ -268,9 +255,11 @@
                 {data: 'checkbox', name: 'checkbox'},
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'action', name: 'action'},
-                {data: 'name', name: 'name'},
+                {data: 'title', name: 'title'},
+                {data: 'blog_category', name: 'blog_category'},
                 {data: 'status', name: 'status'},
                 {data: 'image', name: 'image'},
+                {data: 'desc', name: 'desc'},
                 {data: 'created_by', name: 'created_by'},
                 {data: 'updated_by', name: 'updated_by'},
 
@@ -560,7 +549,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ route('blog.category.destroyAll') }}",
+                        url: "{{ route('admin.blog.destroyAll') }}",
                         type: 'DELETE',
                         data: {
                             ids:all_ids,
@@ -604,7 +593,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ route('blog.category.restoreAll') }}",
+                        url: "{{ route('admin.blog.restoreAll') }}",
                         type: 'DELETE',
                         data: {
                             ids:all_ids,
@@ -648,7 +637,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ route('blog.category.permanentDestroyAll') }}",
+                        url: "{{ route('admin.blog.permanentDestroyAll') }}",
                         type: 'DELETE',
                         data: {
                             ids:all_ids,

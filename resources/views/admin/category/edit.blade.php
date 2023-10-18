@@ -29,7 +29,7 @@
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <label for="category_image" class="form-label">Image</label>
-                        <input required type="file" id="category_image" name="image" class="form-control">
+                        <input type="file" id="category_image" name="image" class="form-control">
                         <span class="error error_e_name text-danger"></span>
                     </div>
                 </div>

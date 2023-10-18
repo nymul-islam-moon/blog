@@ -1,39 +1,44 @@
 <div class="modal-content border-0">
     <div class="modal-header p-3 bg-soft-info">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Blog Category</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Blog</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
     </div>
 
-    <form class="tablelist-form" id="edit_category_form" action="{{ route('blog.category.update', $blogCategory->id) }}" method="POST">
+    <form class="tablelist-form" id="edit_category_form" action="{{ route('admin.blog.update', $blog->id) }}" method="POST">
         @csrf
         @method('put')
         <div class="modal-body">
             <div class="row g-3">
-
-                <div class="col-lg-6">
-                    <label for="category_name" class="form-label">Category Name</label>
-                    <input type="text" id="category_name" name="name" class="form-control" value="{{ $blogCategory->name }}" placeholder="Category name">
-                    <span class="error error_e_name text-danger"></span>
+                <div class="col-lg-4">
+                    <label for="title" class="form-label">Blog Title</label>
+                    <input required type="text" id="title" name="title" class="form-control" value="{{ $blog->title }}" placeholder="Blog Title">
+                    <span class="error error_e_title text-danger"></span>
                 </div>
-
-                <div class="col-lg-6">
+                <!--end col-->
+                <div class="col-lg-4">
                     <label for="category_status" class="form-label">Status</label>
-                    <select class="form-control" name="status" id="category_status">
+                    <select required class="form-control" name="status" id="category_status">
                         <option selected>Status</option>
-                        <option value="1" {{ $blogCategory->status == 1 ? 'selected' : '' }}>Active</option>
-                        <option value="0" {{ $blogCategory->status == 0 ? 'selected' : '' }}>De-Active</option>
+                        <option value="1" {{ $blog->status == 1 ? 'selected' : '' }} >Active</option>
+                        <option value="2" {{ $blog->status == 2 ? 'selected' : '' }} >De-Active</option>
                     </select>
                     <span class="error error_e_status text-danger"></span>
                 </div>
 
-                <div class="row g-3">
-                    <div class="col-lg-6">
-                        <label for="category_image" class="form-label">Image</label>
-                        <input required type="file" id="category_image" name="image" class="form-control">
-                        <span class="error error_e_name text-danger"></span>
-                    </div>
+                <div class="col-lg-4">
+                    <label for="category_image" class="form-label">Image</label>
+                    <input type="file" id="image" name="image" class="form-control" placeholder="Category Image">
+                    <span class="error error_e_image text-danger"></span>
                 </div>
 
+            </div>
+            <div class="row g-3">
+
+                <div class="col-lg-12">
+                    <label for="desc" class="form-label">Description</label>
+                    <textarea name="desc" id="" class="form-control" rows="10">{{ $blog->desc }}</textarea>
+                    <span class="error error_e_desc text-danger"></span>
+                </div>
 
             </div>
         </div>
@@ -41,7 +46,7 @@
         <div class="modal-footer" style="display: block;">
             <div class="hstack gap-2 justify-content-end">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary update_button">Update Blog Category</button>
+                <button type="submit" class="btn btn-primary update_button">Update Blog</button>
             </div>
         </div>
     </form>
