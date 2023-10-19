@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Tasks List</h4>
+                        <h4 class="mb-sm-0">User List</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -29,60 +29,6 @@
 
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <p class="text-uppercase fw-medium text-muted mb-0">Total Product Categories</p>
-                                </div>
-                                {{-- <div class="flex-shrink-0">
-                                    <h5 class="text-success fs-14 mb-0">
-                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +16.24 %
-                                    </h5>
-                                </div> --}}
-                            </div>
-                            <div class="d-flex align-items-end justify-content-between mt-4">
-                                <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" id="total_category_count" data-target="0">0</span></h4>
-                                    <a href="#" class="text-decoration-underline">View net earnings</a>
-                                </div>
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-soft-success rounded fs-3">
-                                        <i class="bx bx-dollar-circle text-success"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <p class="text-uppercase fw-medium text-muted mb-0">Total Active Category</p>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-end justify-content-between mt-4">
-                                <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" id="active_category_count" data-target="0">0</span>k</h4>
-                                    <a href="#" class="text-decoration-underline">View net earnings</a>
-                                </div>
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-soft-success rounded fs-3">
-                                        <i class="bx bx-dollar-circle text-success"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <div class="row">
@@ -107,7 +53,7 @@
                                    <div class="d-flex flex-wrap gap-2">
 
                                         {{-- <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#addCategoryModal"><i class="ri-add-line align-bottom me-1"></i> Create Task</button> --}}
-                                        <button class="btn btn-danger add-btn" href="{{ route('blog.category.create') }}" id="add_btn"><i class="ri-add-line align-bottom me-1"></i> Create Task</button>
+                                        <button class="btn btn-danger add-btn" href="{{ route('admin.user.create') }}" id="add_btn"><i class="ri-add-line align-bottom me-1"></i> Create User</button>
 
                                         <button class="btn btn-soft-danger" id="temp_delete_all"><i class="ri-delete-bin-2-line"></i></button>
                                         <button class="btn btn-soft-danger d-none" id="permanent_delete_all"><i class="ri-delete-bin-2-line"></i></button>
@@ -231,22 +177,6 @@
 
 <script>
     $(document).ready(function() {
-
-        /**
-         * Get all information
-         * */
-         function getAllData()
-        {
-            $.ajax({
-                url: "{{ route('blog.category.getAllData') }}",
-                type: 'GET',
-
-                success: function(data) {
-                    var total_category_count = document.getElementById('total_category_count');
-                    total_category_count.dataset.target = data.allCategory;
-                }
-            });
-        }
 
 
         /**
@@ -570,7 +500,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ route('blog.category.destroyAll') }}",
+                        url: "{{ route('admin.user.destroyAll') }}",
                         type: 'DELETE',
                         data: {
                             ids:all_ids,
@@ -614,8 +544,8 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ route('blog.category.restoreAll') }}",
-                        type: 'DELETE',
+                        url: "{{ route('admin.user.restoreAll') }}",
+                        type: 'GET',
                         data: {
                             ids:all_ids,
                             _token:'{{ csrf_token() }}',
@@ -658,7 +588,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ route('blog.category.permanentDestroyAll') }}",
+                        url: "{{ route('admin.user.permanentDestroyAll') }}",
                         type: 'DELETE',
                         data: {
                             ids:all_ids,

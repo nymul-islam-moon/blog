@@ -18,22 +18,22 @@ Route::middleware(['is_admin', 'auth'])->prefix('admin')->group(function () {
 
     Route::resource('roles', RoleController::class);
 
-    Route::prefix('user')->group( function () {
+    Route::prefix('users')->group( function () {
         Route::controller(UserController::class)->prefix('/')->group(function () {
             Route::get('/', 'index')->name('admin.user.index');
-            // Route::get('/create', 'create')->name('blog.category.create');
-            // Route::post('/store', 'store')->name('blog.category.store');
-            // Route::get('/{productCategory}/edit', 'edit')->name('product.category.edit');
-            // Route::put('/{productCategory}/update', 'update')->name('product.category.update');
-            // Route::post('/{productCategory}/active', 'active')->name('product.category.active');
-            // Route::post('/{productCategory}/de-active', 'deactive')->name('product.category.deactive');
-            // Route::delete('/{productCategory}/destroy', 'destroy')->name('product.category.destroy');
-            // Route::post('/{productCategory}/restore', 'restore')->name('product.category.restore');
-            // Route::delete('/{productCategory}/force-delete', 'forceDelete')->name('product.category.forcedelete');
-            // Route::delete('/destroy-all', 'destroyAll')->name('blog.category.destroyAll');
-            // Route::delete('/permanent-destroy-all', 'permanentDestroyAll')->name('blog.category.permanentDestroyAll');
-            // Route::delete('/restore-all', 'restoreAll')->name('blog.category.restoreAll');
-            // Route::get('/get-data', 'getAllData')->name('blog.category.getAllData');
+            Route::get('/create', 'create')->name('admin.user.create');
+            Route::post('/store', 'store')->name('admin.user.store');
+            Route::get('/{user}/edit', 'edit')->name('admin.user.edit');
+            Route::put('/{user}/update', 'update')->name('admin.user.update');
+            Route::post('/{user}/active', 'active')->name('admin.user.active');
+            Route::post('/{user}/de-active', 'deactive')->name('admin.user.deactive');
+            Route::delete('/{user}/destroy', 'destroy')->name('admin.user.destroy');
+            Route::post('/{user}/restore', 'restore')->name('admin.user.restore');
+            Route::delete('/{user}/force-delete', 'forceDelete')->name('admin.user.forcedelete');
+            Route::delete('/destroy-all', 'destroyAll')->name('admin.user.destroyAll');
+            Route::delete('/permanent-destroy-all', 'permanentDestroyAll')->name('admin.user.permanentDestroyAll');
+            Route::get('/restore-all', 'restoreAll')->name('admin.user.restoreAll');
+            Route::get('/get-data', 'getAllData')->name('admin.user.getAllData');
         });
     });
 

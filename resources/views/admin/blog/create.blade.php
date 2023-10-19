@@ -48,7 +48,7 @@
 
                 <div class="col-lg-12">
                     <label for="desc" class="form-label">Description</label>
-                    <textarea name="desc" id="" class="form-control" rows="10"></textarea>
+                    <textarea name="desc" id="" class="form-control summernote" rows="10"></textarea>
                     {{-- <input required type="text" id="desc" name="desc" class="form-control" value="{{ old('desc') }}" placeholder="Category Image"> --}}
                     <span class="error error_desc text-danger"></span>
                 </div>
@@ -66,6 +66,13 @@
 
 
 <script>
+
+    $(document).ready(function() {
+
+        $('.summernote').summernote();
+
+    });
+
     /**
      * Add Product Category
      * @author Nymul Islam Moon < towkir1997islam@gmail.com >

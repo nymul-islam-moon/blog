@@ -48,7 +48,11 @@
                     </a>
                 </li>
 
-
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ request()->routeIs('admin.user.*') ? 'active' : '' }}" href="{{ route('admin.user.index') }}">
+                    <i class="ri-dashboard-2-line"></i> <span data-key="t-widgets">Users</span>
+                    </a>
+                </li>
 
 
             </ul>
