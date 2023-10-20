@@ -36,7 +36,7 @@
 
                 <div class="col-lg-12">
                     <label for="desc" class="form-label">Description</label>
-                    <textarea name="desc" id="" class="form-control" rows="10">{{ $blog->desc }}</textarea>
+                    <textarea name="desc" id="" class="form-control summernote" rows="10">{!! $blog->desc !!}</textarea>
                     <span class="error error_e_desc text-danger"></span>
                 </div>
 
@@ -55,6 +55,12 @@
 
 <script>
 
+    $(document).ready(function() {
+
+        $('.summernote').summernote();
+
+    });
+    
     $(document).on('submit', '#edit_category_form', function(e) {
         e.preventDefault();
 
