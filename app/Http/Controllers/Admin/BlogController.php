@@ -15,7 +15,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class BlogController extends Controller
 {
-
+    public $title = '';
     /**
     * Create a new controller instance.
     *
@@ -24,6 +24,7 @@ class BlogController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->title = 'Blog';
     }
 
     /**
@@ -146,8 +147,8 @@ class BlogController extends Controller
 
 
         // $total_category =
-
-        return view('admin.blog.index', compact('blogs'));
+        $title = $this->title;
+        return view('admin.blog.index', compact('blogs', 'title'));
     }
 
     /**
