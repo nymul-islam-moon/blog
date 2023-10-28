@@ -187,15 +187,12 @@ class BlogController extends Controller
 
             $imageName = time().'-'.$request->file('image')->getClientOriginalName();
 
-            // dd($imageName);
-
             $destinationPath = public_path('uploads/blog/');
 
             $image->save($destinationPath.$imageName);
 
             $formData['image'] = $imageName;
         }
-        // dd($formData);
 
         $blog = Blog::create($formData);
 
