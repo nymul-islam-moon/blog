@@ -31,7 +31,7 @@
                     <select required class="form-control" name="blog_category_id" id="category_status">
                         <option selected>Blog Category</option>
                         @foreach ($blogCategories as $blogCategory)
-                            <option value="{{ $blogCategory->id }}">{{ $blogCategory->id }}</option>
+                            <option value="{{ $blogCategory->id }}">{{ $blogCategory->name }}</option>
                         @endforeach
                     </select>
                     <span class="error error_blog_category_id text-danger"></span>
