@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Blog List</h4>
+                        <h4 class="mb-sm-0">{{ $title }} List</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -123,7 +123,6 @@
                                                 <th scope="col">Blog Category</th>
                                                 <th scope="col">Status</th>
                                                 <th scope="col">Image</th>
-                                                <th scope="col">Description</th>
                                                 <th scope="col">Created By</th>
                                                 <th scope="col">Updated By</th>
                                             </tr>
@@ -219,7 +218,6 @@
                 {data: 'blog_category', name: 'blog_category'},
                 {data: 'status', name: 'status'},
                 {data: 'image', name: 'image'},
-                {data: 'desc', name: 'desc'},
                 {data: 'created_by', name: 'created_by'},
                 {data: 'updated_by', name: 'updated_by'},
 

@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\SubBlogCategoryController;
 use App\Http\Controllers\Admin\ChildBlogCategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\RoleController;
+// use App\Http\Controllers\Admin\RoleController;
 
 Route::get('/admin-login', [LoginController::class, 'adminLogin'])->name('admin.login');
 
@@ -16,7 +16,7 @@ Route::middleware(['is_admin', 'auth'])->prefix('admin')->group(function () {
     Route::get('/home', [AdminController::class, 'admin'])->name('admin.home');
     Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
-    Route::resource('roles', RoleController::class);
+    // Route::resource('roles', RoleController::class);
 
     Route::prefix('users')->group( function () {
         Route::controller(UserController::class)->prefix('/')->group(function () {
