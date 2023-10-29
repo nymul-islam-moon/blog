@@ -11,22 +11,22 @@ use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreBlogCategoryRequest;
 use App\Http\Requests\UpdateBlogCategoryRequest;
-use App\Interface\ProductCategoryInterface;
+use App\Interface\BlogCategoryInterface;
 use App\Interface\CodeGenerateInterface;
 class BlogCategoryController extends Controller
 {
+
+    private $blogCategoryService;
 
     /**
     * Create a new controller instance.
     *
     * @return void
     */
-    public function __construct(ProductCategoryInterface $productCategoryService, CodeGenerateInterface $codeGenerateService)
+    public function __construct()
     {
         $this->middleware('auth');
 
-        $this->productCategoryService = $productCategoryService;
-        $this->codeGenerateService = $codeGenerateService;
     }
 
    /**

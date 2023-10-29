@@ -2,12 +2,12 @@
 
 namespace App\Interface;
 
-interface ProductCategoryInterface
+interface BlogCategoryInterface
 {
     public function all();
 
     public function store(array $request);
 
-    public function update($productCategory, array $request);
+    public function update($blogCategory, array $request);
 
 }

@@ -2,15 +2,19 @@
 
 namespace App\Service;
 use Illuminate\Support\Str;
-use App\Models\ProductCategory;
-use App\Interface\ProductCategoryInterface;
+use Illuminate\Http\Request;
+use App\Models\BlogCategory;
+use App\Interface\BlogCategoryInterface;
+use Illuminate\Support\Facades\DB;
 
-class ProductCategoryService implements ProductCategoryInterface
+
+class BlogCategoryService implements BlogCategoryInterface
 {
     public function all()
     {
-        $categories = ProductCategory::latest()->get();
-        return $categories;
+
+        $blogCategories = BlogCategory::latest()->get();
+        return $blogCategories;
     }
 
     public function store(array $formData)
