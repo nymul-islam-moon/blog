@@ -39,12 +39,12 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ request()->routeIs('blog.category.*') ? 'active' : '' }}" href="{{ route('blog.category.index') }}">
-                    <i class="ri-dashboard-2-line"></i> <span data-key="t-widgets">Blog Category</span>
+                    <i class="ri-dashboard-2-line"></i> <span data-key="t-widgets">Category</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ request()->routeIs('admin.blog.*') ? 'active' : '' }}" href="{{ route('admin.blog.index') }}">
-                    <i class="ri-dashboard-2-line"></i> <span data-key="t-widgets">Blog</span>
+                    <i class="ri-dashboard-2-line"></i> <span data-key="t-widgets">Posts</span>
                     </a>
                 </li>
 

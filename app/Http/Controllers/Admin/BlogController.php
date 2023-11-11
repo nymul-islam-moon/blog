@@ -121,7 +121,9 @@ class BlogController extends Controller
                 } )
                 ->editColumn( 'blog_category', function ( $row ) {
 
-                    return $row->id;
+                    $blogCategory = BlogCategory::where( 'id', $row->id )->first()->name;
+
+                    return $blogCategory;
 
                 } )
                 ->editColumn('status', function ($row) {

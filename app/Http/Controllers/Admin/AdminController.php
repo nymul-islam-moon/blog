@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Blog;
+use App\Models\BlogCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -20,7 +23,11 @@ class AdminController extends Controller
 
     public function admin()
     {
-        return view('admin.home');
+        $comments = 0;
+        $categories = BlogCategory::count();
+        $posts = Blog::count();
+        $users = User::count();
+        return view('admin.home', compact( 'comments', 'categories', 'posts', 'users' ));
     }
 
     /**

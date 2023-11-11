@@ -1,28 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\API\Admin;
+namespace App\Http\Controllers\API\Frontend;
 
 use App\Http\Controllers\API\BaseController as Controller;
-use Validator;
-use Image;
-use App\Http\Resources\BlogCategoryResource;
+use App\Http\Resources\CategoryResource;
 use App\Models\BlogCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class BlogCategoryController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
 
-        $blogCategories = BlogCategory::all();
+        $categories = BlogCategory::where('status', 1)->get();
 
-        return $this->sendResponse( BlogCategoryResource::collection( $blogCategories ), 'Blog categories retrieved successfully' );
+        return $this->sendResponse( CategoryResource::collection( $categories ), 'Blog Category retrieved successfully' );
+
     }
 
     /**
@@ -43,41 +41,7 @@ class BlogCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $formData = $request->all();
-
-        $validator = validator::make($formData, [
-            'name' => 'required',
-            'status' => 'required',
-            'image' => 'required',
-        ]);
-
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
-
-        if ($formData['status'] == 1) {
-            $formData['status'] = true;
-        }else {
-            $formData['status'] = false;
-        }
-
-        if( $request->hasFile('image') ) {
-            $image = Image::make($request->file('image'));
-
-            $imageName = time().'-'.$request->file('image')->getClientOriginalName();
-
-            // dd($imageName);
-
-            $destinationPath = public_path('uploads/blog/category/');
-
-            $image->save($destinationPath.$imageName);
-
-            $formData['image'] = $imageName;
-        }
-
-        $blogCategory = BlogCategory::create($formData);
-
-        return $this->sendResponse(new BlogCategoryResource($blogCategory), 'Product created successfully.');
+        //
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\API\Admin\BlogCategoryController;
+use App\Http\Controllers\API\Frontend\BlogController;
+use App\Http\Controllers\API\Frontend\CategoryController;
 use App\Http\Controllers\API\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function ( Request $request ) {
     return $request->user();
 });
 
-Route::prefix('blog')->group( function () {
+Route::prefix('blog/admin')->group( function () {
 
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::controller(BlogCategoryController::class)->prefix('/category')->group(function () {
@@ -46,5 +47,21 @@ Route::prefix('blog')->group( function () {
             // Route::delete('/restore-all', 'restoreAll')->name('blog.category.restoreAll');
             // Route::get('/get-data', 'getAllData')->name('blog.category.getAllData');
         });
+    });
+});
+
+
+/**
+ * Frontend API's Routes
+ */
+
+ Route::prefix('/')->group( function () {
+
+    Route::controller(CategoryController::class)->prefix('/category')->group(function () {
+        Route::get('/', 'index');
+    });
+
+    Route::controller(BlogController::class)->prefix('/blog')->group(function () {
+        Route::get('/', 'index');
     });
 });
