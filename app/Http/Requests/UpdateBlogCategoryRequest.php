@@ -24,7 +24,7 @@ class UpdateBlogCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required|string|min:3|max:100|unique:blog_categories,name,' . $this->blogCategory->id,
+            'name'      => 'required|string|min:3|max:100|unique:categories,name,' . $this->blogCategory->id,
             'image'     => 'sometimes|nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'status'    => 'required|integer',
         ];

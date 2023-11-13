@@ -36,7 +36,7 @@ class BlogCategoryController extends Controller
     */
    public function index(Request $request)
    {
-        $query = DB::table('blog_categories');
+        $query = DB::table('categories');
 
         if (!empty($request->f_soft_delete)) {
             if ($request->f_soft_delete == 1) {
@@ -194,7 +194,7 @@ class BlogCategoryController extends Controller
         }
         // dd($formData);
 
-        $blogCategory = BlogCategory::create($formData);
+        $blogCategory = BlogCategory::create( $formData );
 
         // try {
         //     $categories  = $this->productCategoryService->store($formData);

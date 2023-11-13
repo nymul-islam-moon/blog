@@ -24,7 +24,7 @@ class StoreBlogCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required|string|min:3|max:100|unique:blog_categories,name',
+            'name'      => 'required|string|min:3|max:100|unique:categories,name',
             'image'     => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'status'    => 'required|integer',
         ];

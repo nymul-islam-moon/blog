@@ -10,13 +10,13 @@
             <div class="row g-3">
                 <div class="col-lg-6">
                     <label for="title" class="form-label">Blog Title</label>
-                    <input required type="text" id="title" name="title" class="form-control" value="{{ old('title') }}" placeholder="Blog Title">
+                    <input  type="text" id="title" name="title" class="form-control" value="{{ old('title') }}" placeholder="Blog Title">
                     <span class="error error_title text-danger"></span>
                 </div>
                 <!--end col-->
                 <div class="col-lg-6">
                     <label for="category_status" class="form-label">Status</label>
-                    <select required class="form-control" name="status" id="category_status">
+                    <select  class="form-control" name="status" id="category_status">
                         <option selected>Status</option>
                         <option value="1" {{ old('status') == 1 ? 'selected' : '' }} >Active</option>
                         <option value="2" {{ old('status') == 2 ? 'selected' : '' }} >De-Active</option>
@@ -27,19 +27,19 @@
 
             <div class="row g-3">
                 <div class="col-lg-6">
-                    <label for="category_status" class="form-label">Blog Category</label>
-                    <select required class="form-control" name="blog_category_id" id="category_status">
+                    <label for="category_id" class="form-label">Blog Category</label>
+                    <select  class="form-control" name="category_id" id="category_id">
                         <option selected>Blog Category</option>
                         @foreach ($blogCategories as $blogCategory)
                             <option value="{{ $blogCategory->id }}">{{ $blogCategory->name }}</option>
                         @endforeach
                     </select>
-                    <span class="error error_blog_category_id text-danger"></span>
+                    <span class="error error_category_id text-danger"></span>
                 </div>
 
                 <div class="col-lg-6">
                     <label for="category_image" class="form-label">Image</label>
-                    <input required type="file" id="image" name="image" class="form-control" value="{{ old('name') }}" placeholder="Category Image">
+                    <input  type="file" id="image" name="image" class="form-control" value="{{ old('name') }}" placeholder="Category Image">
                     <span class="error error_image text-danger"></span>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                 <div class="col-lg-12">
                     <label for="desc" class="form-label">Description</label>
                     <textarea name="desc" id="" class="form-control summernote" rows="10"></textarea>
-                    {{-- <input required type="text" id="desc" name="desc" class="form-control" value="{{ old('desc') }}" placeholder="Category Image"> --}}
+                    {{-- <input  type="text" id="desc" name="desc" class="form-control" value="{{ old('desc') }}" placeholder="Category Image"> --}}
                     <span class="error error_desc text-danger"></span>
                 </div>
 

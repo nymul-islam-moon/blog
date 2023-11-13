@@ -27,7 +27,10 @@ class AdminController extends Controller
         $categories = BlogCategory::count();
         $posts = Blog::count();
         $users = User::count();
-        return view('admin.home', compact( 'comments', 'categories', 'posts', 'users' ));
+        $latest_users = User::latest()->take(5)->get();
+        $latest_blogs = Blog::latest()->take(5)->get();
+
+        return view('admin.home', compact( 'comments', 'categories', 'posts', 'users', 'latest_users', 'latest_blogs' ));
     }
 
     /**

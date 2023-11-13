@@ -147,9 +147,8 @@ class BlogController extends Controller
                 ->make(true);
         }
 
-
-        // $total_category =
         $title = $this->title;
+
         return view('admin.blog.index', compact('blogs', 'title'));
     }
 
@@ -174,7 +173,6 @@ class BlogController extends Controller
     public function store(StoreBlogRequest $request)
     {
         $formData = $request->validated();
-
 
         $formData['created_by_id'] = \auth::user()->id;
 

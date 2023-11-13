@@ -13,7 +13,7 @@ class BlogCategory extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $table = 'blog_categories';
+    protected $table = 'categories';
 
     protected $fillable = [ 'created_by_id', 'updated_by_id', 'name', 'status', 'image' ];
 

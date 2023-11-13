@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('created_by_id')->nullable();
             $table->unsignedBigInteger('updated_by_id')->nullable();
-            $table->unsignedBigInteger('blog_category_id')->nullable();
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->string('title');
             $table->tinyInteger('status')->nullable();
             $table->string('image');
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('blog_category_id')->references('id')->on('blog_categories')->onDelete('CASCADE');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('CASCADE');
             $table->foreign('created_by_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->foreign('updated_by_id')->references('id')->on('users')->onDelete('CASCADE');
         });
