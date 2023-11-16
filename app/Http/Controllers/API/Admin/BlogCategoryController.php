@@ -17,12 +17,14 @@ class BlogCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index( Request $request )
     {
-
         $blogCategories = BlogCategory::all();
-
-        return $this->sendResponse( BlogCategoryResource::collection( $blogCategories ), 'Blog categories retrieved successfully' );
+    
+        $responseMessage = 'Blog categories retrieved successfully';
+        $resourceCollection = BlogCategoryResource::collection( $blogCategories );
+    
+        return $this->sendResponse( $resourceCollection, $responseMessage );
     }
 
     /**
@@ -43,42 +45,39 @@ class BlogCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $formData = $request->all();
-
-        $validator = validator::make($formData, [
-            'name' => 'required',
-            'status' => 'required',
-            'image' => 'required',
-        ]);
-
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());
+        try {
+            $validator = validator::make($request->all(), [
+                'name' => 'required',
+                'status' => 'required',
+                'image' => 'required',
+            ]);
+    
+            if ($validator->fails()) {
+                return $this->sendError('Validation Error.', $validator->errors());
+            }
+    
+            $formData = [
+                'name' => $request->input('name'),
+                'status' => $request->input('status') == 1,
+            ];
+    
+            if ($request->hasFile('image')) {
+                $image = Image::make($request->file('image'));
+                $imageName = time() . '-' . $request->file('image')->getClientOriginalName();
+                $destinationPath = public_path('uploads/blog/category/');
+                $image->save($destinationPath . $imageName);
+                $formData['image'] = $imageName;
+            }
+    
+            $blogCategory = BlogCategory::create($formData);
+    
+            return $this->sendResponse(new BlogCategoryResource($blogCategory), 'Product created successfully.');
+        } catch (\Exception $e) {
+            // Handle the exception, logging the error message
+            return $this->sendError('Error occurred.', $e->getMessage());
         }
-
-        if ($formData['status'] == 1) {
-            $formData['status'] = true;
-        }else {
-            $formData['status'] = false;
-        }
-
-        if( $request->hasFile('image') ) {
-            $image = Image::make($request->file('image'));
-
-            $imageName = time().'-'.$request->file('image')->getClientOriginalName();
-
-            // dd($imageName);
-
-            $destinationPath = public_path('uploads/blog/category/');
-
-            $image->save($destinationPath.$imageName);
-
-            $formData['image'] = $imageName;
-        }
-
-        $blogCategory = BlogCategory::create($formData);
-
-        return $this->sendResponse(new BlogCategoryResource($blogCategory), 'Product created successfully.');
     }
+
 
     /**
      * Display the specified resource.

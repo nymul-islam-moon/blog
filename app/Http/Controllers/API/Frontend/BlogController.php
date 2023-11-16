@@ -18,8 +18,11 @@ class BlogController extends Controller
     public function index()
     {
         $categories = Blog::where('status', 1)->get();
-
-        return $this->sendResponse( BlogResource::collection( $categories ), 'Blog retrieved successfully' );
+    
+        return response()->json([
+            'data' => BlogResource::collection($categories),
+            'message' => 'Blogs retrieved successfully'
+        ], 200);
     }
 
     /**

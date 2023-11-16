@@ -1,6 +1,6 @@
 <div class="modal-content border-0">
     <div class="modal-header p-3 bg-soft-info">
-        <h5 class="modal-title" id="exampleModalLabel">Add Blog Category</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add {{ $title }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
     </div>
     <form class="tablelist-form" autocomplete="off" id="add_category_form" action="{{ route('blog.category.store') }}" method="POST">
@@ -9,13 +9,13 @@
         <div class="modal-body">
             <div class="row g-3">
                 <div class="col-lg-6">
-                    <label for="category_name" class="form-label">Category Name</label>
+                    <label for="category_name" class="form-label">{{ $title }} Name</label>
                     <input required type="text" id="category_name" name="name" class="form-control" value="{{ old('name') }}" placeholder="Category name">
                     <span class="error error_name text-danger"></span>
                 </div>
                 <!--end col-->
                 <div class="col-lg-6">
-                    <label for="category_status" class="form-label">Status</label>
+                    <label for="category_status" class="form-label">{{ $title }} Status</label>
                     <select required class="form-control" name="status" id="category_status">
                         <option selected>Status</option>
                         <option value="1" {{ old('status') == 1 ? 'selected' : '' }} >Active</option>
@@ -26,16 +26,16 @@
             </div>
             <div class="row g-3">
                 <div class="col-lg-6">
-                    <label for="category_image" class="form-label">Image</label>
+                    <label for="category_image" class="form-label">{{ $title }} Image</label>
                     <input required type="file" id="category_image" name="image" class="form-control" value="{{ old('name') }}" placeholder="Category Image">
-                    <span class="error error_name text-danger"></span>
+                    <span class="error error_image text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="modal-footer" style="display: block;">
             <div class="hstack gap-2 justify-content-end">
                 <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success submit_button">Add Category</button>
+                <button type="submit" class="btn btn-success submit_button">Add {{ $title }}</button>
             </div>
         </div>
     </form>

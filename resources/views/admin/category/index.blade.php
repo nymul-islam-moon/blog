@@ -18,12 +18,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Blog Categoory List</h4>
+                        <h4 class="mb-sm-0">{{ $title }} List</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);">Blog</a></li>
-                                <li class="breadcrumb-item active">Blog Categoory List</li>
+                                <li class="breadcrumb-item active">{{ $title }} List</li>
                             </ol>
                         </div>
 
@@ -37,12 +37,12 @@
 
                         <div class="card-header border-0">
                             <div class="d-flex align-items-center">
-                                <h5 class="card-title mb-0 flex-grow-1">Blog Category List</h5>
+                                <h5 class="card-title mb-0 flex-grow-1">{{ $title }} List</h5>
                                 <div class="flex-shrink-0">
                                    <div class="d-flex flex-wrap gap-2">
 
-                                        {{-- <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#addCategoryModal"><i class="ri-add-line align-bottom me-1"></i> Create Task</button> --}}
-                                        <button class="btn btn-danger add-btn" href="{{ route('blog.category.create') }}" id="add_btn"><i class="ri-add-line align-bottom me-1"></i> Add Category</button>
+                                        {{-- <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#addCategoryModal"><i class="ri-add-line align-bottom me-1"></i> Create {{ $title }}</button> --}}
+                                        <button class="btn btn-danger add-btn" href="{{ route('blog.category.create') }}" id="add_btn"><i class="ri-add-line align-bottom me-1"></i> Add {{ $title }}</button>
 
                                         <button class="btn btn-soft-danger" id="temp_delete_all"><i class="ri-delete-bin-2-line"></i></button>
                                         <button class="btn btn-soft-danger d-none" id="permanent_delete_all"><i class="ri-delete-bin-2-line"></i></button>
@@ -59,8 +59,8 @@
                                 <div class="col-xxl-2 col-sm-4">
                                     <div class="input-light">
                                         <select class="form-control submitable" name="f_soft_delete" id="f_soft_delete">
-                                            <option selected value="1">All</option>
-                                            <option value="2">Trash Categories</option>
+                                            <option selected value="1">All {{ $title }}</option>
+                                            <option value="2">Trash {{ $title }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -132,7 +132,7 @@
 
             <div class="modal fade zoomIn" id="addCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-lg" id="add-content">
-                    <h1>hi</h1>
+                    
                 </div>
             </div>
 
