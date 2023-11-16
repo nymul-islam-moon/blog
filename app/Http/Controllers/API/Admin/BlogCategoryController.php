@@ -17,12 +17,14 @@ class BlogCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index( Request $request )
     {
-
         $blogCategories = BlogCategory::all();
-
-        return $this->sendResponse( BlogCategoryResource::collection( $blogCategories ), 'Blog categories retrieved successfully' );
+    
+        $responseMessage = 'Blog categories retrieved successfully';
+        $resourceCollection = BlogCategoryResource::collection( $blogCategories );
+    
+        return $this->sendResponse( $resourceCollection, $responseMessage );
     }
 
     /**
