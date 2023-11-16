@@ -13,6 +13,9 @@ use App\Http\Requests\StoreBlogCategoryRequest;
 use App\Http\Requests\UpdateBlogCategoryRequest;
 use App\Interface\BlogCategoryInterface;
 use App\Interface\CodeGenerateInterface;
+use Illuminate\Http\JsonResponse;
+use Exception;
+
 class BlogCategoryController extends Controller
 {
 
@@ -121,48 +124,31 @@ class BlogCategoryController extends Controller
     * @param  \App\Http\Requests\StoreProductCategoryRequest $request
     * @return \Illuminate\Http\Response
     */
-   public function store(StoreBlogCategoryRequest $request)
-   {
-
-        $formData = $request->validated();
-
-
-        $formData['created_by_id'] = \auth::user()->id;
-
-
-        if ($formData['status'] == 1) {
-            $formData['status'] = true;
-        }else {
-            $formData['status'] = false;
+    public function store(StoreBlogCategoryRequest $request): JsonResponse
+    {
+        try {
+            $formData = $request->validated();
+            
+            $formData['created_by_id'] = Auth::user()->id;
+    
+            $formData['status'] = $formData['status'] == 1;
+    
+            if ($request->hasFile('image')) {
+                $image = Image::make($request->file('image'));
+                $imageName = time() . '-' . $request->file('image')->getClientOriginalName();
+                $destinationPath = public_path('uploads/blog/category/');
+                $image->save($destinationPath . $imageName);
+                $formData['image'] = $imageName;
+            }
+    
+            $blogCategory = BlogCategory::create($formData);
+    
+            return response()->json('Blog Category Created Successfully');
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while creating the Blog Category.']);
         }
-
-        if( $request->hasFile('image') ) {
-            $image = Image::make($request->file('image'));
-
-            $imageName = time().'-'.$request->file('image')->getClientOriginalName();
-
-            // dd($imageName);
-
-            $destinationPath = public_path('uploads/blog/category/');
-
-            $image->save($destinationPath.$imageName);
-
-            $formData['image'] = $imageName;
-        }
-        // dd($formData);
-
-        $blogCategory = BlogCategory::create($formData);
-
-        // try {
-        //     $categories  = $this->productCategoryService->store($formData);
-        // } catch (\Exception $e) {
-        //     return response()->json('Error');
-        // }
-
-        return response()->json('Blog Category Created Successfully');
-
-   }
-
+    }
+    
    /**
     * Display the specified resource.
     *
@@ -192,50 +178,38 @@ class BlogCategoryController extends Controller
     * @param  \App\Models\BlogCategory $blogCategory
     * @return \Illuminate\Http\Response
     */
-   public function update(UpdateBlogCategoryRequest $request, BlogCategory $blogCategory)
-   {
-        // try {
-        //         $formData = $request->validated();
-        //         $categories  = $this->productCategoryService->update($productCategory, $formData);
-        //     } catch (\Exception $e) {
-        //         return response()->json('Error');
-        //     }
-
-        $formData = $request->validated();
-
-
-        $formData['updated_by_id'] = \auth::user()->id;
-
-
-        if ($formData['status'] == 1) {
-            $formData['status'] = true;
-        }else {
-            $formData['status'] = false;
-        }
-
-        if( $request->hasFile('image') ) {
-
-            try {
-                unlink(public_path( 'uploads/blog/category/' . $blogCategory['image'] ));
-            } catch (\Throwable $th) {
-
+    public function update(UpdateBlogCategoryRequest $request, BlogCategory $blogCategory): JsonResponse
+    {
+        try {
+            $formData = $request->validated();
+    
+            $formData['updated_by_id'] = Auth::user()->id;
+    
+            $formData['status'] = $formData['status'] == 1;
+    
+            if ($request->hasFile('image')) {
+                // Delete the old image file
+                try {
+                    unlink(public_path('uploads/blog/category/' . $blogCategory->image));
+                } catch (\Throwable $th) {
+                    // Handle exception if the file cannot be deleted
+                }
+    
+                // Save the new image file
+                $image = Image::make($request->file('image'));
+                $imageName = time() . '-' . $request->file('image')->getClientOriginalName();
+                $destinationPath = public_path('uploads/blog/category/');
+                $image->save($destinationPath . $imageName);
+    
+                $formData['image'] = $imageName;
             }
-
-            $image = Image::make($request->file('image'));
-
-            $imageName = time().'-'.$request->file('image')->getClientOriginalName();
-
-            $destinationPath = public_path('uploads/blog/category/');
-
-            $image->save($destinationPath.$imageName);
-
-            $formData['image'] = $imageName;
+    
+            $blogCategory->update($formData);
+    
+            return response()->json('Blog Category Updated Successfully');
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while updating the Blog Category.']);
         }
-
-
-        $blogCategory->update( $formData );
-
-        return response()->json('Blog Category Updated Successfully');
     }
 
    /**
@@ -244,14 +218,17 @@ class BlogCategoryController extends Controller
     * @param  \App\Models\BlogCategory $blogCategory
     * @return \Illuminate\Http\Response
     */
-   public function destroy(BlogCategory $blogCategory)
-   {
-        $blogCategory->status = 0;
-        $blogCategory->save();
-        $blogCategory->delete();
-
-        return response()->json('Blog category deleted successfully');
-   }
+    public function destroy(BlogCategory $blogCategory): JsonResponse
+    {
+        try {
+            $blogCategory->update(['status' => 0]);
+            $blogCategory->delete();
+    
+            return response()->json('Blog category deleted successfully');
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while deleting the Blog Category.']);
+        }
+    }
 
 
    /**
@@ -319,20 +296,19 @@ class BlogCategoryController extends Controller
     * @return \Illuminate\Http\Response
     */
 
-    public function destroyAll(Request $request)
+    public function destroyAll(Request $request): JsonResponse
     {
-
-        $ids = $request->ids;
-
-        $idArr = (array) $ids;
-
-        foreach ($idArr as $key=> $id) {
-            $blogCategory = BlogCategory::where('id', $id)->first();
-            $blogCategory->status = 0;
-            $blogCategory->save();
-            $blogCategory->delete();
+        try {
+            $ids = $request->ids;
+            $idArr = is_array($ids) ? $ids : [$ids];
+    
+            BlogCategory::whereIn('id', $idArr)->update(['status' => 0]);
+            BlogCategory::whereIn('id', $idArr)->delete();
+    
+            return response()->json('Blog Categories deleted successfully');
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while deleting Blog Categories.']);
         }
-        return response()->json('Blog Category Deleted Successfully');
     }
 
 
