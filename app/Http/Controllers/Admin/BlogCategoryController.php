@@ -22,6 +22,7 @@ class BlogCategoryController extends Controller
 {
 
     private $blogCategoryService;
+    public $title;
 
     /**
     * Create a new controller instance.
@@ -31,7 +32,7 @@ class BlogCategoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
+        $this->title = 'Blog Categoory';
     }
 
    /**
@@ -106,8 +107,9 @@ class BlogCategoryController extends Controller
                 ->rawColumns(['action', 'status', 'checkbox', 'image'])
                 ->make(true);
         }
-    
-        return view('admin.category.index', compact('categories'));
+
+        $title = $this->title;
+        return view('admin.category.index', compact('categories', 'title'));
     }
 
    /**
@@ -117,7 +119,8 @@ class BlogCategoryController extends Controller
     */
    public function create()
    {
-       return view('admin.category.create');
+       $title = $this->title;
+       return view( 'admin.category.create', compact( 'title' ) );
    }
 
    /**
@@ -173,7 +176,8 @@ class BlogCategoryController extends Controller
     */
    public function edit(BlogCategory $blogCategory)
    {
-        return view('admin.category.edit', compact('blogCategory'));
+        $title = $this->title;
+        return view('admin.category.edit', compact('blogCategory', 'title'));
    }
 
    /**
