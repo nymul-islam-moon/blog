@@ -3,18 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use Image;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\BlogCategory;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreBlogCategoryRequest;
 use App\Http\Requests\UpdateBlogCategoryRequest;
+use Yajra\DataTables\Facades\DataTables;
 use App\Interface\BlogCategoryInterface;
 use App\Interface\CodeGenerateInterface;
-use Illuminate\Http\JsonResponse;
-use Exception;
+
 
 class BlogCategoryController extends Controller
 {
@@ -127,10 +129,10 @@ class BlogCategoryController extends Controller
     public function store(StoreBlogCategoryRequest $request): JsonResponse
     {
         try {
-            $formData = $request->validated();
-            
-            $formData['created_by_id'] = Auth::user()->id;
+            DB::beginTransaction();
     
+            $formData = $request->validated();
+            $formData['created_by_id'] = Auth::user()->id;
             $formData['status'] = $formData['status'] == 1;
     
             if ($request->hasFile('image')) {
@@ -143,8 +145,11 @@ class BlogCategoryController extends Controller
     
             $blogCategory = BlogCategory::create($formData);
     
+            DB::commit();
+    
             return response()->json('Blog Category Created Successfully');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
+            DB::rollBack();
             return response()->json(['error' => 'An error occurred while creating the Blog Category.']);
         }
     }
