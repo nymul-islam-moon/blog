@@ -1,6 +1,6 @@
 <div class="modal-content border-0">
     <div class="modal-header p-3 bg-soft-info">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Blog Category</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit {{ $title }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
     </div>
 
@@ -11,13 +11,13 @@
             <div class="row g-3">
 
                 <div class="col-lg-6">
-                    <label for="category_name" class="form-label">Category Name</label>
+                    <label for="category_name" class="form-label">{{ $title }} Name</label>
                     <input type="text" id="category_name" name="name" class="form-control" value="{{ $blogCategory->name }}" placeholder="Category name">
                     <span class="error error_e_name text-danger"></span>
                 </div>
 
                 <div class="col-lg-6">
-                    <label for="category_status" class="form-label">Status</label>
+                    <label for="category_status" class="form-label">{{ $title }} Status</label>
                     <select class="form-control" name="status" id="category_status">
                         <option selected>Status</option>
                         <option value="1" {{ $blogCategory->status == 1 ? 'selected' : '' }}>Active</option>
@@ -28,7 +28,7 @@
 
                 <div class="row g-3">
                     <div class="col-lg-6">
-                        <label for="category_image" class="form-label">Image</label>
+                        <label for="category_image" class="form-label">{{ $title }} Image</label>
                         <input type="file" id="category_image" name="image" class="form-control">
                         <span class="error error_e_name text-danger"></span>
                     </div>
@@ -41,7 +41,7 @@
         <div class="modal-footer" style="display: block;">
             <div class="hstack gap-2 justify-content-end">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary update_button">Update Blog Category</button>
+                <button type="submit" class="btn btn-primary update_button">Update {{ $title }}</button>
             </div>
         </div>
     </form>
