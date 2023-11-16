@@ -35,118 +35,75 @@ class BlogCategoryController extends Controller
     * @return \Illuminate\Http\Response
     */
    public function index(Request $request)
-   {
-        $query = DB::table('blog_categories');
+    {
+        $query = BlogCategory::query();
 
-        if (!empty($request->f_soft_delete)) {
-            if ($request->f_soft_delete == 1) {
-                $query->where('deleted_at', '=', null);
-            } else {
-                $query->where('deleted_at', '!=', null);
-            }
+        if ( ! empty( $request->f_soft_delete ) ) {
+            $query->whereNull('deleted_at', $request->f_soft_delete == 1 ? '=' : '!=');
         }
-
-        if (!empty($request->f_status)) {
-            if ($request->f_status == 1){
-                $query->where('status', 1);
-            }else{
-                $query->where('status', 0);
-            }
+    
+        if ( ! empty( $request->f_status ) ) {
+            $query->where('status', $request->f_status == 1 ? 1 : 0);
         }
-
+    
         $categories = $query->orderByDesc('id')->get();
-
-        if ($request->ajax()) {
-            return DataTables::of($categories)
+    
+        if ( $request->ajax() ) {
+            return DataTables::of( $categories )
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-
-                    $html = '';
-
-                    $html .='<div class="btn-group" role="group" aria-label="Button group with nested dropdown">';
-                    $html .='<div class="btn-group" role="group">';
-                    $html .='<button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">';
-                    $html .='Action';
-                    $html .='</button>';
-                    $html .='<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">';
+                    $html = '<div class="btn-group" role="group" aria-label="Button group with nested dropdown">';
+                    $html .= '<div class="btn-group" role="group">';
+                    $html .= '<button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">';
+                    $html .= 'Action';
+                    $html .= '</button>';
+                    $html .= '<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">';
                     if ($row->deleted_at == null) {
-                        $html .='<li><a class="dropdown-item" href="'. route('blog.category.edit', $row->id) .'" id="edit_btn">Edit</a></li>';
-                        $html .='<li><a class="dropdown-item" href="'. route('blog.category.destroy', $row->id) .'" id="delete_btn">Delete</a></li>';
+                        $html .= '<li><a class="dropdown-item" href="'.route('blog.category.edit', $row->id).'" id="edit_btn">Edit</a></li>';
+                        $html .= '<li><a class="dropdown-item" href="'.route('blog.category.destroy', $row->id).'" id="delete_btn">Delete</a></li>';
                     } else {
-                        $html .='<li><a class="dropdown-item" href="'. route('blog.category.restore', $row->id) .'" id="restore_btn">Restore</a></li>';
-                        $html .='<li><a class="dropdown-item" href="'. route('blog.category.forcedelete', $row->id) .'" id="force_delete_btn">Hard Delete</a></li>';
+                        $html .= '<li><a class="dropdown-item" href="'.route('blog.category.restore', $row->id).'" id="restore_btn">Restore</a></li>';
+                        $html .= '<li><a class="dropdown-item" href="'.route('blog.category.forcedelete', $row->id).'" id="force_delete_btn">Hard Delete</a></li>';
                     }
-                    $html .='</ul>';
-                    $html .='</div>';
-                    $html .='</div>';
-
+                    $html .= '</ul>';
+                    $html .= '</div>';
+                    $html .= '</div>';
                     return $html;
                 })
                 ->addColumn('checkbox', function ($row) {
-                    $html = '';
-
-                    $html .= '<input type="checkbox" class="checkbox_ids" name="ids" value="'. $row->id .'">';
-
-                    return $html;
-
+                    return '<input type="checkbox" class="checkbox_ids" name="ids" value="'.$row->id.'">';
                 })
                 ->addColumn('created_by', function ($row) {
-
-                    if (!empty($row->created_by_id))
-                    {
-                        $user = User::where('id', $row->created_by_id)->first();
-
-                        return $user->first_name . ' ' . $user->last_name;
-                    }else{
-                        return 'N/A';
-                    }
+                    return !empty($row->created_by_id) ? User::find($row->created_by_id)->full_name : 'N/A';
                 })
                 ->addColumn('updated_by', function ($row) {
-
-                    if (!empty($row->updated_by_id))
-                    {
-                        $user = User::where('id', $row->updated_by_id)->first();
-                        return $user->first_name . ' ' . $user->last_name;
-                    }else{
-                        return 'N/A';
-                    }
+                    return !empty($row->updated_by_id) ? User::find($row->updated_by_id)->full_name : 'N/A';
                 })
-                ->editColumn( 'image', function ( $row ) {
-
-                    $html = '';
-                    $html .='<a href="javascript: void(0);" class="avatar-group-item" data-img="avatar-3.jpg" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" aria-label="Username" data-bs-original-title="Username">';
-                    $html .='<img src="'. asset('uploads/blog/category/' . $row->image) . '" alt="" class="rounded-circle avatar-xxs"></a>';
-                    $html .='</a>';
-
-                    return $html;
-
-                } )
+                ->editColumn('image', function ($row) {
+                    return '<a href="javascript: void(0);" class="avatar-group-item" data-img="avatar-3.jpg" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" aria-label="Username" data-bs-original-title="Username">'.
+                           '<img src="'.asset('uploads/blog/category/'.$row->image).'" alt="" class="rounded-circle avatar-xxs"></a>';
+                })
                 ->editColumn('status', function ($row) {
-                    $html = '';
-                    if ($row->status == 1) {
-
-                        $html .='<div class="form-check form-switch">';
-                        $html .='<input class="form-check-input" href="'. route('blog.category.deactive', $row->id) .'" type="checkbox" role="switch" id="deactive_btn" checked="">&nbsp;';
-                        $html .='<label class="form-check-label" for="SwitchCheck4"> Active</label>';
-                        $html .='</div>';
-
-                    } else {
-                        $html .='<div class="form-check form-switch">';
-                        $html .='<input class="form-check-input" type="checkbox" href="'. route('blog.category.active', $row->id) .'" role="switch" id="active_btn">&nbsp;';
-                        $html .='<label class="form-check-label" for="SwitchCheck4"> De-active</label>';
-                        $html .='</div>';
+                    $html = '<div class="form-check form-switch">'.
+                            '<input class="form-check-input" href="'.route('blog.category.deactive', $row->id).'" type="checkbox" role="switch" id="deactive_btn" '.($row->status == 1 ? 'checked' : '').'>&nbsp;'.
+                            '<label class="form-check-label" for="SwitchCheck4"> Active</label>'.
+                            '</div>';
+    
+                    if ($row->status != 1) {
+                        $html = '<div class="form-check form-switch">'.
+                                '<input class="form-check-input" type="checkbox" href="'.route('blog.category.active', $row->id).'" role="switch" id="active_btn">&nbsp;'.
+                                '<label class="form-check-label" for="SwitchCheck4"> De-active</label>'.
+                                '</div>';
                     }
+    
                     return $html;
                 })
                 ->rawColumns(['action', 'status', 'checkbox', 'image'])
                 ->make(true);
         }
-
-
-        // $total_category =
-
+    
         return view('admin.category.index', compact('categories'));
-   }
+    }
 
    /**
     * Show the form for creating a new resource.
