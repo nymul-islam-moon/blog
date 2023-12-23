@@ -44,12 +44,28 @@ class BlogCategoryController extends Controller
     {
         $query = BlogCategory::query();
 
-        if ( ! empty( $request->f_soft_delete ) ) {
-            $query->whereNull('deleted_at', $request->f_soft_delete == 1 ? '=' : '!=');
+        // if ( ! empty( $request->f_soft_delete ) ) {
+        //     $query->whereNull('deleted_at', $request->f_soft_delete == 1 ? '=' : '!=');
+        // }
+
+        // if ( ! empty( $request->f_status ) ) {
+        //     $query->where('status', $request->f_status == 1 ? 1 : 0);
+        // }
+
+        if ( !empty( $request->f_soft_delete ) ) {
+            if ($request->f_soft_delete == 1) {
+                $query->where('deleted_at', '=', null);
+            } else {
+                $query->where('deleted_at', '!=', null);
+            }
         }
 
-        if ( ! empty( $request->f_status ) ) {
-            $query->where('status', $request->f_status == 1 ? 1 : 0);
+        if ( !empty( $request->f_status ) ) {
+            if ($request->f_status == 1){
+                $query->where('status', 1);
+            }else{
+                $query->where('status', 0);
+            }
         }
 
         $categories = $query->orderByDesc('id')->get();

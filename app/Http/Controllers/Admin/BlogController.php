@@ -89,25 +89,28 @@ class BlogController extends Controller
 
                 })
                 ->addColumn('created_by', function ($row) {
+                    return 'hi';
 
-                    if (!empty($row->created_by_id))
-                    {
-                        $user = User::where('id', $row->created_by_id)->first();
+                    // if (!empty($row->created_by_id))
+                    // {
+                    //     $user = User::where('id', $row->created_by_id)->first();
 
-                        return $user->first_name . ' ' . $user->last_name;
-                    }else{
-                        return 'N/A';
-                    }
+                    //     return $user->first_name . ' ' . $user->last_name;
+                    // }else{
+                    //     return 'N/A';
+                    // }
                 })
                 ->addColumn('updated_by', function ($row) {
 
-                    if (!empty($row->updated_by_id))
-                    {
-                        $user = User::where('id', $row->updated_by_id)->first();
-                        return $user->first_name . ' ' . $user->last_name;
-                    }else{
-                        return 'N/A';
-                    }
+                    return 'hi';
+
+                    // if (!empty($row->updated_by_id))
+                    // {
+                    //     $user = User::where('id', $row->updated_by_id)->first();
+                    //     return $user->first_name . ' ' . $user->last_name;
+                    // }else{
+                    //     return 'N/A';
+                    // }
                 })
                 ->editColumn( 'image', function ( $row ) {
 
@@ -120,6 +123,7 @@ class BlogController extends Controller
 
                 } )
                 ->editColumn( 'blog_category', function ( $row ) {
+                    return 'hi';
 
                     $blogCategory = BlogCategory::where( 'id', $row->id )->first()->name;
 
